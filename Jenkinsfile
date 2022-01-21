@@ -27,7 +27,7 @@ pipeline {
         stage('Package') { 
             steps {
                 //Before creating the docker image, we need to create the .jar file
-                sh 'mvn jar:jar'
+                sh 'mvn package spring-boot:repackage -DskipTests'
                 echo 'Create the Docker image'
                 script {
                     docker.build(DOCKER_REPOSITORY+'/'+IMAGE_NAME+':'+IMAGE_VERSION, '--build-arg JAR_FILE=target/*.jar .')
