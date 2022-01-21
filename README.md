@@ -14,7 +14,7 @@ Additionally, if running this pipeline in a Jenkins Agent, the agent requires to
 The pipeline implements 4 stages:
 - Compile --> Uses the Maven test-compile goal, as we also want to compile the test classes in this stage
 - Test --> Uses the Maven surefire:test goal, to avoid recompiling again
-- Package --> First, it creates the executable .jar file using the Maven spring-boot:repackage goal. Second, it builds the Docker image
+- Package --> First, it creates the executable .jar file using the Maven package spring-boot:repackage goals, skipping tests. Second, it builds the Docker image
 - Deploy --> Uses the Docker pipeline plugin to push the image to a protected (credentials should be used) Artifactory Docker registry
 
 ## How to run the application with a Docker container
