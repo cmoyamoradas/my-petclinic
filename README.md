@@ -22,7 +22,7 @@ The pipeline implements 4 stages:
 Five environments variables are providing the specific context to the pipeline:
 - DOCKER_REGISTRY = The URI of the Docker registry we want to deploy the docker image in *(trickynickel.jfrog.io)*
 - DOCKER_REPOSITORY = The name of the concrete repository in the registry *(default-docker-virtual)*
-- DOCKER_REPOSITORY_CREDENTIALS = The id of the Credentials object that we would need to authenticate agains the repository *(deployer-artifactory)*
+- DOCKER_REPOSITORY_CREDENTIALS = The id of the Jenkins Credentials object that we would need to authenticate against the repository *(deployer-artifactory)*
 - IMAGE_NAME = The name we want to give to the image *(petclinic)*
 - IMAGE_VERSION = The concrete version of the image *(latest)*
 
