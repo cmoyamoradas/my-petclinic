@@ -17,9 +17,9 @@ The pipeline implements 4 stages:
 - Package --> First, it creates the executable .jar file using the Maven package spring-boot:repackage goals, skipping tests. Second, it builds the Docker image
 - Deploy --> Uses the Docker pipeline plugin to push the image to a protected (credentials should be used) Artifactory Docker registry
 
-NOTE: There is no stage cloning the source code repository as this pipeline has been conceived to be used from a Multibranch pipeline project. 
+**NOTE:** There is no stage cloning the source code repository as this pipeline has been conceived to be used from a [Multibranch pipeline project](https://www.jenkins.io/doc/book/pipeline/multibranch/). 
 
-4 environments variables are providing the specific context to the pipeline:
+Five environments variables are providing the specific context to the pipeline:
 - DOCKER_REGISTRY = The URI of the Docker registry we want to deploy the docker image in *(trickynickel.jfrog.io)*
 - DOCKER_REPOSITORY = The name of the concrete repository in the registry *(default-docker-virtual)*
 - DOCKER_REPOSITORY_CREDENTIALS = The id of the Credentials object that we would need to authenticate agains the repository *(deployer-artifactory)*
