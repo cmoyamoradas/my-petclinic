@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        ARTIFACTORY_DOCKER_REGISTRY = 'http://10.186.0.6:8082/docker-virtual'
+        ARTIFACTORY_DOCKER_REGISTRY = '10.186.0.6:8082/docker-virtual'
         DOCKER_REPOSITORY = 'docker-virtual'
         CREDENTIALS = 'Artifactory'
         IMAGE_NAME = 'my-pet-clinic'
@@ -34,7 +34,7 @@ pipeline {
                 script {
                     def myImg = docker.image(DOCKER_REPOSITORY+'/'+IMAGE_NAME+':'+IMAGE_VERSION)
 
-                    docker.withRegistry(ARTIFACTORY_DOCKER_REGISTRY, CREDENTIALS){
+                    docker.withRegistry('http://' + ARTIFACTORY_DOCKER_REGISTRY, CREDENTIALS){
                             myImg.push()
                         }
                 }
