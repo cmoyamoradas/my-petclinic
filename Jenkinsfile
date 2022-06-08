@@ -3,8 +3,6 @@ pipeline {
     environment {
         ARTIFACTORY_DOCKER_REGISTRY = 'http://10.186.0.6:8082/docker-virtual'
         DOCKER_REPOSITORY = 'docker-virtual'
-        SERVER_ID = 'onboarding'
-        HOST_NAME = ''
         CREDENTIALS = 'deployer'
         IMAGE_NAME = 'my-pet-clinic'
         IMAGE_VERSION = 'latest'
@@ -14,14 +12,6 @@ pipeline {
     } 
    
     stages {
-        stage ('Artifactory configuration') {
-            steps {
-                rtServer (
-                    id: SERVER_ID,
-                    credentialsId: CREDENTIALS
-                )
-            }
-        }
         stage('Compile') { 
             steps {
                 echo 'Compiling'     
@@ -41,17 +31,13 @@ pipeline {
         stage('Deploy') { 
             steps {
                 echo 'Deploy the image in Artifactory'
-                rtDockerPush(
-                    serverId: SERVER_ID,
-                    image: DOCKER_REPOSITORY + '/'+IMAGE_NAME+':'+IMAGE_VERSION,
-                    // Host:
-                    // On OSX: "tcp://127.0.0.1:1234"
-                    // On Linux can be omitted or null
-                    //host: HOST_NAME,
-                    targetRepo: 'docker-local',
-                    // Attach custom properties to the published artifacts:
-                    properties: 'project-name=$JOB_NAME;status=stable'
-                )
+                script {
+                    def myImg = docker.image(DOCKER_REPOSITORY+'/'+IMAGE_NAME+':'+IMAGE_VERSION)
+
+                    docker.withRegistry(ARTIFACTORY_DOCKER_REGISTRY, DOCKER_REPOSITORY_CREDENTIALS){
+                            myImg.push()
+                        }
+                }
             }
         }
     }
