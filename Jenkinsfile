@@ -8,7 +8,7 @@ pipeline {
         IMAGE_VERSION = 'latest'
     }
     tools {
-        maven "maven-3.8.4"
+        maven "maven-3.6.3"
     } 
    
     stages {
