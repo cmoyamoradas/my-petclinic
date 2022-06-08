@@ -43,7 +43,7 @@ pipeline {
                 echo 'Deploy the image in Artifactory'
                 rtDockerPush(
                     serverId: SERVER_ID,
-                    image: ARTIFACTORY_DOCKER_REGISTRY + '/$IMAGE_NAME:$IMAGE_VERSION',
+                    image: DOCKER_REPOSITORY + '/'+IMAGE_NAME+':'+IMAGE_VERSION,
                     // Host:
                     // On OSX: "tcp://127.0.0.1:1234"
                     // On Linux can be omitted or null
