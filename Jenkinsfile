@@ -25,19 +25,19 @@ pipeline {
         stage('Compile') { 
             steps {
                 echo 'Compiling'     
-                sh 'mvn clean test-compile'
+                sh 'mvn clean test-compile -Dcheckstyle.skip'
             }
         }
         stage('Test') { 
             steps {
                 echo 'Running the tests'
-                sh 'mvn surefire:test'
+                sh 'mvn surefire:test -Dcheckstyle.skip'
             }
         }
         stage('Package') { 
             steps {
                 //Before creating the docker image, we need to create the .jar file
-                sh 'mvn package spring-boot:repackage -DskipTests'
+                sh 'mvn package spring-boot:repackage -DskipTests -Dcheckstyle.skip'
                 echo 'Create the Docker image'
                 script {
                     docker.build(ARTIFACTORY_DOCKER_REGISTRY+'/'+IMAGE_NAME+':'+IMAGE_VERSION, '--build-arg JAR_FILE=target/*.jar .')
