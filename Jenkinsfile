@@ -3,7 +3,7 @@ pipeline {
     environment {
         ARTIFACTORY_DOCKER_REGISTRY = 'http://10.186.0.6:8082/docker-virtual'
         DOCKER_REPOSITORY = 'docker-virtual'
-        CREDENTIALS = 'deployer'
+        CREDENTIALS = 'Artifactory'
         IMAGE_NAME = 'my-pet-clinic'
         IMAGE_VERSION = 'latest'
     }
