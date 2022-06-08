@@ -1,10 +1,12 @@
 pipeline {
     agent any
     environment {
-        DOCKER_REGISTRY = 'http://10.186.0.6:8082'
+        ARTIFACTORY_DOCKER_REGISTRY = 'http://10.186.0.6:8082/docker-virtual'
         DOCKER_REPOSITORY = 'docker-virtual'
+        SERVER_ID = 'onboarding'
+        HOST_NAME = ''
         DOCKER_REPOSITORY_CREDENTIALS = 'deployer'
-        IMAGE_NAME = 'petclinic'
+        IMAGE_NAME = 'my-pet-clinic'
         IMAGE_VERSION = 'latest'
     }
     tools {
@@ -12,6 +14,14 @@ pipeline {
     } 
    
     stages {
+        stage ('Artifactory configuration') {
+            steps {
+                rtServer (
+                    id: SERVER_ID,
+                    credentialsId: CREDENTIALS
+                )
+            }
+        }
         stage('Compile') { 
             steps {
                 echo 'Compiling'     
@@ -30,23 +40,23 @@ pipeline {
                 sh 'mvn package spring-boot:repackage -DskipTests'
                 echo 'Create the Docker image'
                 script {
-                    docker.build(DOCKER_REPOSITORY+'/'+IMAGE_NAME+':'+IMAGE_VERSION, '--build-arg JAR_FILE=target/*.jar .')
+                    docker.build(ARTIFACTORY_DOCKER_REGISTRY+'/'+IMAGE_NAME+':'+IMAGE_VERSION, '--build-arg JAR_FILE=target/*.jar .')
                 }
-                //Docker image creation could be also made using the spring-boot plugin, build-image goal. No Dockerfile would be required
-                //Look below the corresponding command
-                //sh 'mvn spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName=${DOCKER_REPOSITORY}/${IMAGE_NAME}:${IMAGE_VERSION}'
             }
         }
         stage('Deploy') { 
             steps {
                 echo 'Deploy the image in Artifactory'
-                script {
-                    def myImg = docker.image(DOCKER_REPOSITORY+'/'+IMAGE_NAME+':'+IMAGE_VERSION)
-
-                    docker.withRegistry('https://'+DOCKER_REGISTRY, DOCKER_REPOSITORY_CREDENTIALS){
-                            myImg.push()
-                        }
-                }
+                rtDockerPush(
+                    serverId: SERVER_ID,
+                    image: ARTIFACTORY_DOCKER_REGISTRY + '/$IMAGE_NAME:$IMAGE_VERSION',
+                    // Host:
+                    // On OSX: "tcp://127.0.0.1:1234"
+                    // On Linux can be omitted or null
+                    host: HOST_NAME,
+                    // Attach custom properties to the published artifacts:
+                    properties: 'project-name=$JOB_NAME;status=stable'
+                )
             }
         }
     }
