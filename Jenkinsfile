@@ -34,7 +34,7 @@ pipeline {
                 script {
                     def myImg = docker.image(DOCKER_REPOSITORY+'/'+IMAGE_NAME+':'+IMAGE_VERSION)
 
-                    docker.withRegistry(ARTIFACTORY_DOCKER_REGISTRY, DOCKER_REPOSITORY_CREDENTIALS){
+                    docker.withRegistry(ARTIFACTORY_DOCKER_REGISTRY, CREDENTIALS){
                             myImg.push()
                         }
                 }
