@@ -1,9 +1,9 @@
 pipeline {
     agent any
     environment {
-        DOCKER_REGISTRY = 'trickynickel.jfrog.io'
-        DOCKER_REPOSITORY = 'default-docker-virtual'
-        DOCKER_REPOSITORY_CREDENTIALS = 'deployer-artifactory'
+        DOCKER_REGISTRY = 'http://10.186.0.6:8082'
+        DOCKER_REPOSITORY = 'docker-virtual'
+        DOCKER_REPOSITORY_CREDENTIALS = 'deployer'
         IMAGE_NAME = 'petclinic'
         IMAGE_VERSION = 'latest'
     }
