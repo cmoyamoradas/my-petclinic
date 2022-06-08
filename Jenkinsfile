@@ -5,7 +5,7 @@ pipeline {
         DOCKER_REPOSITORY = 'docker-virtual'
         SERVER_ID = 'onboarding'
         HOST_NAME = ''
-        DOCKER_REPOSITORY_CREDENTIALS = 'deployer'
+        CREDENTIALS = 'deployer'
         IMAGE_NAME = 'my-pet-clinic'
         IMAGE_VERSION = 'latest'
     }
