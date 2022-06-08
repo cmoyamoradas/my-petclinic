@@ -12,6 +12,14 @@ pipeline {
     } 
    
     stages {
+        stage ('Artifactory configuration') {
+            steps {
+                rtServer (
+                    id: 'onboarding',
+                    credentialsId: CREDENTIALS
+                )
+            }
+        }
         stage('Compile') { 
             steps {
                 echo 'Compiling'     
@@ -31,6 +39,7 @@ pipeline {
         stage('Deploy') { 
             steps {
                 echo 'Deploy the image in Artifactory'
+                /*
                 script {
                     def myImg = docker.image(DOCKER_REPOSITORY+'/'+IMAGE_NAME+':'+IMAGE_VERSION)
 
@@ -38,6 +47,17 @@ pipeline {
                             myImg.push()
                         }
                 }
+                */
+                rtDockerPush(
+                    serverId: 'onboarding',
+                    image: DOCKER_REPOSITORY+'/'+IMAGE_NAME+':'+IMAGE_VERSION,
+                    // Host:
+                    // On OSX: "tcp://127.0.0.1:1234"
+                    // On Linux can be omitted or null
+                    targetRepo: 'docker-local',
+                    // Attach custom properties to the published artifacts:
+                    properties: 'project-name=${JOB_NAME};status=stable'
+                )
             }
         }
     }
