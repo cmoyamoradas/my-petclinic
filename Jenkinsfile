@@ -38,7 +38,8 @@ pipeline {
                 }
             }
         }
-        stage('Deploy') { 
+        /*
+        stage('Deploy') {
             steps {
                 echo 'Deploy the image in Artifactory'
                 script {
@@ -48,6 +49,16 @@ pipeline {
                             myImg.push()
                         }
                 }
+            }
+        }
+        */
+        stage ('Push image to Artifactory') {
+            steps {
+                rtDockerPush(
+                    serverId: 'onboarding',
+                    image: DOCKER_REPOSITORY+'/'+IMAGE_NAME+':'+IMAGE_VERSION,
+                    targetRepo: 'docker-local'
+                )
             }
         }
         stage ('Publish build info') {
