@@ -63,7 +63,9 @@ pipeline {
             steps {
                 xrayScan (
                     serverId: SERVER_ID,
-                    failBuild: 'false'
+                    buildName: JOB_NAME,
+                    buildNumber: BUILD_ID,
+                    failBuild: false
                 )
             }
         }
