@@ -12,6 +12,16 @@ pipeline {
     } 
    
     stages {
+
+        stage ('Artifactory configuration') {
+            steps {
+                rtServer (
+                    id: 'onboarding',
+                    url: 'http://10.186.0.6:8082/artifactory',
+                    credentialsId: 'Artifactory'
+                )
+            }
+        }
         stage('Compile') { 
             steps {
                 echo 'Compiling'     
@@ -38,6 +48,13 @@ pipeline {
                             myImg.push()
                         }
                 }
+            }
+        }
+        stage('Scan') {
+            steps {
+                xrayScan (
+                    serverId: 'onboarding'
+                )
             }
         }
     }
