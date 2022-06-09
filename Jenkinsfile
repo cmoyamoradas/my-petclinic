@@ -59,6 +59,15 @@ pipeline {
                 }
             }
         }
-
+        stage('Scan') {
+            steps {
+                xrayScan (
+                    serverId: SERVER_ID,
+                    buildName: JOB_NAME,
+                    buildNumber: BUILD_ID,
+                    failBuild: false
+                )
+            }
+        }
     }
 }
