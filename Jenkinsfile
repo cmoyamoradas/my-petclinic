@@ -62,7 +62,7 @@ pipeline {
         stage('Scan') {
             steps {
                 xrayScan (
-                    serverId: '${SERVER_ID}',
+                    serverId: SERVER_ID,
                     failBuild: 'false'
                 )
             }
