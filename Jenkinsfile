@@ -52,7 +52,7 @@ pipeline {
         }
         stage ('Publish build info') {
             steps {
-                sh 'jf rt bce ${JOB_NAME} ${BUILD_ID} --url ${RT_URL} --access-token ${TOKEN}'
+                sh 'jf rt bce ${JOB_NAME} ${BUILD_ID}'
                 sh 'jf rt bp ${JOB_NAME} ${BUILD_ID} --url ${RT_URL} --access-token ${TOKEN}'
             }
         }
