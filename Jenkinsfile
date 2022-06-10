@@ -42,21 +42,18 @@ pipeline {
         }
         stage ('Ping to Artifactory') {
             steps {
-                sh 'jf rt ping --url ${RT_URL} --access-token ${TOKEN}'
+               sh 'jf rt ping --url ${RT_URL} --access-token ${TOKEN}'
             }
         }
         stage ('Push image to Artifactory') {
             steps {
-                ws('/var/lib/jenkins/workspace/jfrog-cli'){
-                    sh 'jf rt docker-push ${ARTIFACTORY_DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_VERSION} ${DOCKER_REPOSITORY} --build-name=${JOB_NAME} --build-number=${BUILD_ID} --url ${RT_URL} --access-token ${TOKEN}'
-                }
+                sh 'jf rt docker-push ${ARTIFACTORY_DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_VERSION} ${DOCKER_REPOSITORY} --build-name=${JOB_NAME} --build-number=${BUILD_ID} --url ${RT_URL} --access-token ${TOKEN}'
             }
         }
         stage ('Publish build info') {
             steps {
-                ws('/var/lib/jenkins/workspace/jfrog-cli'){
-                    sh 'jf rt bp ${JOB_NAME} ${BUILD_ID} --url ${RT_URL} --access-token ${TOKEN}'
-                }
+                sh 'jf rt bce ${JOB_NAME} ${BUILD_ID} --url ${RT_URL} --access-token ${TOKEN}'
+                sh 'jf rt bp ${JOB_NAME} ${BUILD_ID} --url ${RT_URL} --access-token ${TOKEN}'
             }
         }
     }
