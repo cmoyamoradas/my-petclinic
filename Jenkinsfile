@@ -56,15 +56,5 @@ pipeline {
                 sh 'jf rt bp ${JOB_NAME} ${BUILD_ID} --build-url ${BUILD_URL} --url ${RT_URL} --access-token ${TOKEN}'
             }
         }
-        stage('Scan') {
-            steps {
-                xrayScan (
-                    serverId: SERVER_ID,
-                    buildName: JOB_NAME,
-                    buildNumber: BUILD_ID,
-                    failBuild: false
-                )
-            }
-        }
     }
 }
