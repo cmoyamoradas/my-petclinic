@@ -6,7 +6,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Compile
+      - name: Compile code
         run: mvn clean test-compile -Dcheckstyle.skip -DskipTests
       - name: Package
         run: mvn package spring-boot:repackage -DskipTests -Dcheckstyle.skip
