@@ -5,7 +5,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+      - name: Compile
+        run: mvn clean test-compile -Dcheckstyle.skip -DskipTests
+      - name: Package
+        run: mvn package spring-boot:repackage -DskipTests -Dcheckstyle.skip
       - name: Setup JFrog CLI
         uses: jfrog/setup-jfrog-cli@v2
         env:
