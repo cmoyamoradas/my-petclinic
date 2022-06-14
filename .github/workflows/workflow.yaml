@@ -36,9 +36,9 @@ jobs:
       - name: Run JFrog CLI
         run: |
           # Push image to Artifactory
-          jf rt docker-push ${{ env.ARTIFACTORY_DOCKER_REGISTRY }}/${{ env.DOCKER_REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} ${{ env.DOCKER_REPOSITORY }} --build-name='my-petclinic' --build-number=8
+          jf rt docker-push ${{ env.ARTIFACTORY_DOCKER_REGISTRY }}/${{ env.DOCKER_REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} ${{ env.DOCKER_REPOSITORY }} --build-name=${{ github.workflow }} --build-number=${{ github.run_number }}
           # Collect environment variables for the build
           #jf rt bce ${{ github.workflow }} ${{ github.run_number }}
-          jf rt bce 'my-petclinic' 8
+          jf rt bce ${{ github.workflow }} ${{ github.run_number }}
           # Publish build info
-          jf rt bp 'my-petclinic' 8
+          jf rt bp ${{ github.workflow }} ${{ github.run_number }}
