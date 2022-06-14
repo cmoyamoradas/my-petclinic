@@ -1,5 +1,10 @@
 name: "JFrog CLI Example"
 on: push
+env:
+  DOCKER_REPOSITORY='carlos-docker-virtual'
+  IMAGE_NAME='my-pet-clinic'
+  IMAGE_VERSION='latest
+  ARTIFACTORY_DOCKER_REGISTRY='soleng.jfrog.io/carlos-docker-virtual'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -10,6 +15,18 @@ jobs:
         run: mvn clean test-compile -Dcheckstyle.skip -DskipTests
       - name: Package
         run: mvn package spring-boot:repackage -DskipTests -Dcheckstyle.skip
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          push: false
+          tags: ${{ env.DOCKER_REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION}}
+          build-args: 'JAR_FILE=target/*.jar'
       - name: Setup JFrog CLI
         uses: jfrog/setup-jfrog-cli@v2
         env:
@@ -20,9 +37,9 @@ jobs:
           #jf c use soleng
           # Ping local-1 Artifactory server
           jf rt ping
+          # Push image to Artifactory
+          jf rt docker-push ${{ env.ARTIFACTORY_DOCKER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} ${{ env.DOCKER_REPOSITORY }} --build-name=${{ github.workflow }} --build-number=${{ github.run_number	}}
           # Collect environment variables for the build
-          jf rt bce
-          # Collect VCS details from git and add them to the build
-          jf rt bag
+          jf rt bce ${{ github.workflow }} ${{ github.run_number }}
           # Publish build info
-          jf rt bp
+          jf rt bp ${{ github.workflow }} ${{ github.run_number }}
