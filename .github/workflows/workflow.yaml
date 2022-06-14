@@ -12,6 +12,7 @@ jobs:
         run: mvn package spring-boot:repackage -DskipTests -Dcheckstyle.skip
       - name: Setup JFrog CLI
         uses: jfrog/setup-jfrog-cli@v2
+        environment: staging
         env:
           JF_ENV_1: ${{ secrets.JF_SECRET_ENV_1 }}
       - name: Run JFrog CLI
