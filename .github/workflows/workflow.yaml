@@ -1,4 +1,4 @@
-name: "JFrog CLI Example"
+name: "my-petclinic"
 on: push
 env:
   DOCKER_REPOSITORY: 'carlos-docker-virtual'
@@ -38,6 +38,7 @@ jobs:
           # Push image to Artifactory
           jf rt docker-push ${{ env.ARTIFACTORY_DOCKER_REGISTRY }}/${{ env.DOCKER_REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} ${{ env.DOCKER_REPOSITORY }} --build-name='test' --build-number=7
           # Collect environment variables for the build
-          jf rt bce ${{ github.workflow }} ${{ github.run_number }}
+          #jf rt bce ${{ github.workflow }} ${{ github.run_number }}
+          jf rt bce 'my-petclinic' 7
           # Publish build info
-          jf rt bp ${{ github.workflow }} ${{ github.run_number }}
+          jf rt bp 'my-petclinic' 7
