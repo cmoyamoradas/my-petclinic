@@ -15,18 +15,20 @@ jobs:
         run: mvn clean test-compile -Dcheckstyle.skip -DskipTests
       - name: Package
         run: mvn package spring-boot:repackage -DskipTests -Dcheckstyle.skip
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-      - name: Build and push
-        uses: docker/build-push-action@v3
-        with:
-          load: true
-          tags: ${{ env.DOCKER_REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION}}
-          build-args: 'JAR_FILE=target/*.jar'
+      - name: Build the tagged Docker image
+        run: docker build . --file Dockerfile --build-args='JAR_FILE=target/*.jar' --tag ${{ env.DOCKER_REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION}}
+      #- name: Set up Docker Buildx
+      #  uses: docker/setup-buildx-action@v1
+        #- name: Set up QEMU
+      #  uses: docker/setup-qemu-action@v2
+        #- name: Set up Docker Buildx
+      #  uses: docker/setup-buildx-action@v2
+        #- name: Build and push
+        #  uses: docker/build-push-action@v3
+          #  with:
+          #    load: true
+          #    tags: ${{ env.DOCKER_REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION}}
+      #    build-args: 'JAR_FILE=target/*.jar'
       - name: Setup JFrog CLI
         uses: jfrog/setup-jfrog-cli@v2
         env:
