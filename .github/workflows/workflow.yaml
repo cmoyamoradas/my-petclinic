@@ -16,7 +16,7 @@ jobs:
       - name: Package
         run: mvn package spring-boot:repackage -DskipTests -Dcheckstyle.skip
       - name: Build the tagged Docker image
-        run: docker build . --file Dockerfile --build-arg='JAR_FILE=target/*.jar' --tag ${{ env.ARTIFACTORY_DOCKER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION}}
+        run: docker build . --file Dockerfile --build-arg='JAR_FILE=target/*.jar' --tag ${{ env.ARTIFACTORY_DOCKER_REGISTRY }}/${{ env.DOCKER_REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION}}
       #- name: Set up Docker Buildx
       #  uses: docker/setup-buildx-action@v1
         #- name: Set up QEMU
@@ -36,7 +36,7 @@ jobs:
       - name: Run JFrog CLI
         run: |
           # Push image to Artifactory
-          jf rt docker-push ${{ env.ARTIFACTORY_DOCKER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} ${{ env.DOCKER_REPOSITORY }} --build-name='test' --build-number=7
+          jf rt docker-push ${{ env.ARTIFACTORY_DOCKER_REGISTRY }}/${{ env.DOCKER_REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }} ${{ env.DOCKER_REPOSITORY }} --build-name='test' --build-number=7
           # Collect environment variables for the build
           jf rt bce ${{ github.workflow }} ${{ github.run_number }}
           # Publish build info
