@@ -24,7 +24,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          push: false
+          load: true
           tags: ${{ env.DOCKER_REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION}}
           build-args: 'JAR_FILE=target/*.jar'
       - name: Setup JFrog CLI
