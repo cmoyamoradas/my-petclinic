@@ -42,5 +42,5 @@ jobs:
           jf rt bce ${{ github.workflow }} ${{ github.run_number }}
           # Publish build info
           jf rt bp ${{ github.workflow }} ${{ github.run_number }}
-          # Scan published build
+          # Scan published build with fail by default (true)
           jf bs ${{ github.workflow }} ${{ github.run_number }}
