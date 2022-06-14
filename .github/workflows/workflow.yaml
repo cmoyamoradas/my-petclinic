@@ -1,10 +1,10 @@
 name: "JFrog CLI Example"
 on: push
 env:
-  DOCKER_REPOSITORY='carlos-docker-virtual'
-  IMAGE_NAME='my-pet-clinic'
-  IMAGE_VERSION='latest
-  ARTIFACTORY_DOCKER_REGISTRY='soleng.jfrog.io/carlos-docker-virtual'
+  DOCKER_REPOSITORY: 'carlos-docker-virtual'
+  IMAGE_NAME: 'my-pet-clinic'
+  IMAGE_VERSION: 'latest'
+  ARTIFACTORY_DOCKER_REGISTRY: 'soleng.jfrog.io/carlos-docker-virtual'
 jobs:
   build:
     runs-on: ubuntu-latest
