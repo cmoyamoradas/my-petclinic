@@ -1,13 +1,14 @@
-before_script:
-  # Install JFrog CLI
-  - curl -fL https://install-cli.jfrog.io | sh
-  # Configure Artifactory instance with JFrog CLI
-  - jf config add --url=$JFROG_PLATFORM_URL --access-token=$JFROG_PAT
-  - jf config show
-  # Set the M2_HOME environment variable
-  #- export M2_HOME=/usr/share/maven
-  # Replace the repository name in the configuration.yml to the correct one.
-  #- sed -i 's,MAVEN_REPO_KEY,'"$MAVEN_REPO_KEY"',g' configuration.yml
+default:
+  before_script:
+    # Install JFrog CLI
+    - curl -fL https://install-cli.jfrog.io | sh
+    # Configure Artifactory instance with JFrog CLI
+    - jf config add --url=$JFROG_PLATFORM_URL --access-token=$JFROG_PAT
+    - jf config show
+    # Set the M2_HOME environment variable
+    #- export M2_HOME=/usr/share/maven
+    # Replace the repository name in the configuration.yml to the correct one.
+    #- sed -i 's,MAVEN_REPO_KEY,'"$MAVEN_REPO_KEY"',g' configuration.yml
 stages:
   - build:maven
   - build:docker
@@ -24,6 +25,7 @@ build:maven:
   artifacts:
     paths:
       - target/*.jar
+    expire_in: 20 minutes
 build:docker:
   stage: build:docker
   image: docker:latest
