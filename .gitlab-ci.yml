@@ -2,13 +2,13 @@ before_script:
   # Install JFrog CLI
   - curl -fL https://install-cli.jfrog.io | sh
   # Configure Artifactory instance with JFrog CLI
-  - jf rt config --url=$JFROG_PLATFORM_URL --access-token=$JFROG_PAT
-  - jf rt c show
+  - jf config add --url=$JFROG_PLATFORM_URL --access-token=$JFROG_PAT
+  - jf config show
   # Set the M2_HOME environment variable
   #- export M2_HOME=/usr/share/maven
   # Replace the repository name in the configuration.yml to the correct one.
   #- sed -i 's,MAVEN_REPO_KEY,'"$MAVEN_REPO_KEY"',g' configuration.yml
-maven-build:
+build:maven:
   image: maven:latest
   script:
     # Run compile
@@ -18,8 +18,12 @@ maven-build:
   artifacts:
     paths:
       - target/*.jar
-docker-build-push:
+build:docker:
   image: docker:latest
+  services:
+    - docker:dind
+  variables:
+    DOCKER_HOST: tcp://localhost:2375/
   before_script:
     - apk add --update curl && rm -rf /var/cache/apk/*
   script:
