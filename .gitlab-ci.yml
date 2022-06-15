@@ -38,8 +38,8 @@ build:docker:
     # Build Docker image
     - docker build . --file Dockerfile --build-arg='JAR_FILE=target/*.jar' --tag $ARTIFACTORY_DOCKER_REGISTRY/$DOCKER_REPOSITORY/$IMAGE_NAME:$IMAGE_VERSION
     # Push Docker image to Artifactory
-    #- jf rt docker-push $ARTIFACTORY_DOCKER_REGISTRY/$DOCKER_REPOSITORY/$IMAGE_NAME:$IMAGE_VERSION $DOCKER_REPOSITORY --build-name=$CI_PROJECT_NAME --build-number=$CI_JOB_ID
-    - jf docker push $ARTIFACTORY_DOCKER_REGISTRY/$DOCKER_REPOSITORY/$IMAGE_NAME:$IMAGE_VERSION --build-name=$CI_PROJECT_NAME --build-number=$CI_JOB_ID --access-token $JFROG_PAT
+    - jf rt docker-push $ARTIFACTORY_DOCKER_REGISTRY/$DOCKER_REPOSITORY/$IMAGE_NAME:$IMAGE_VERSION $DOCKER_REPOSITORY --build-name=$CI_PROJECT_NAME --build-number=$CI_JOB_ID --access-token $JFROG_PAT
+    #- jf docker push $ARTIFACTORY_DOCKER_REGISTRY/$DOCKER_REPOSITORY/$IMAGE_NAME:$IMAGE_VERSION --build-name=$CI_PROJECT_NAME --build-number=$CI_JOB_ID
     # Collect the environment variables
     - jf rt bce $CI_PROJECT_NAME $CI_JOB_ID --access-token $JFROG_PAT
     # Pass the build information to Artifactory
