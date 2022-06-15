@@ -1,0 +1,33 @@
+before_script:
+  # Install JFrog CLI
+  - curl -fL https://getcli.jfrog.io | sh
+  # Configure Artifactory instance with JFrog CLI
+  - jf rt config --url=$JFROG_PLATFORM_URL --access-token=$JFROG_PAT
+  - jf rt c show
+  # Set the M2_HOME environment variable
+  #- export M2_HOME=/usr/share/maven
+  # Replace the repository name in the configuration.yml to the correct one.
+  #- sed -i 's,MAVEN_REPO_KEY,'"$MAVEN_REPO_KEY"',g' configuration.yml
+maven-build:
+  image: maven:latest
+  script:
+    # Run compile
+    - jf rt mvn "mvn clean test-compile -Dcheckstyle.skip -DskipTests"
+    # Run Maven package
+    - jf rt "mvn package spring-boot:repackage -DskipTests -Dcheckstyle.skip"
+  artifacts:
+    paths:
+      - target/*.jar
+docker-build-push:
+  image: docker:latest
+  script:
+    # Build Docker image
+    - docker build . --file Dockerfile --build-arg='JAR_FILE=target/*.jar' --tag $ARTIFACTORY_DOCKER_REGISTRY/$DOCKER_REPOSITORY/$IMAGE_NAME:$IMAGE_VERSION
+    # Push Docker image
+    - jf rt docker-push $ARTIFACTORY_DOCKER_REGISTRY/$DOCKER_REPOSITORY/$IMAGE_NAME:$IMAGE_VERSION $DOCKER_REPOSITORY --build-name=$CI_PROJECT_NAME --build-number=$CI_JOB_ID
+    # Collect the environment variables
+    - jf rt bce $CI_PROJECT_NAME $CI_JOB_ID
+    # Pass the build information to Artifactory
+    - jf rt bp $CI_PROJECT_NAME $CI_JOB_ID
+    # Scan published build with fail by default (true)
+    - jf bs $CI_PROJECT_NAME $CI_JOB_ID
