@@ -8,7 +8,11 @@ before_script:
   #- export M2_HOME=/usr/share/maven
   # Replace the repository name in the configuration.yml to the correct one.
   #- sed -i 's,MAVEN_REPO_KEY,'"$MAVEN_REPO_KEY"',g' configuration.yml
+stages:
+  - build:maven
+  - build:docker
 build:maven:
+  stage: build:maven
   image: maven:latest
   script:
     # Config Maven
@@ -21,6 +25,7 @@ build:maven:
     paths:
       - target/*.jar
 build:docker:
+  stage: build:docker
   image: docker:latest
   services:
     - docker:dind
