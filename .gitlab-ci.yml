@@ -3,7 +3,8 @@ default:
     # Install JFrog CLI
     - curl -fL https://install-cli.jfrog.io | sh
     # Configure Artifactory instance with JFrog CLI
-    - jf config add --url=$JFROG_PLATFORM_URL --access-token=$JFROG_PAT
+    #- jf config add --url=$JFROG_PLATFORM_URL --access-token=$JFROG_PAT
+    - jf config add --url=$JFROG_PLATFORM_URL --username=$JFROG_USERNAME --password=$JFROG_PASSWORD
     - jf config show
 stages:
   - build:maven
@@ -32,7 +33,8 @@ build:docker:
     # Install JFrog CLI
     - curl -fL https://install-cli.jfrog.io | sh
     # Configure Artifactory instance with JFrog CLI
-    - jf config add --url=$JFROG_PLATFORM_URL --access-token=$JFROG_PAT
+    #- jf config add --url=$JFROG_PLATFORM_URL --access-token=$JFROG_PAT
+    - jf config add --url=$JFROG_PLATFORM_URL --username=$JFROG_USERNAME --password=$JFROG_PASSWORD
     - jf config show
   script:
     # Build Docker image
@@ -41,8 +43,8 @@ build:docker:
     #- jf rt docker-push $ARTIFACTORY_DOCKER_REGISTRY/$DOCKER_REPOSITORY/$IMAGE_NAME:$IMAGE_VERSION $DOCKER_REPOSITORY --build-name=$CI_PROJECT_NAME --build-number=$CI_JOB_ID --url $JFROG_PLATFORM_URL'/artifactory' --access-token $JFROG_PAT
     - jf docker push $ARTIFACTORY_DOCKER_REGISTRY/$DOCKER_REPOSITORY/$IMAGE_NAME:$IMAGE_VERSION --build-name=$CI_PROJECT_NAME --build-number=$CI_JOB_ID
     # Collect the environment variables
-    #- jf rt bce $CI_PROJECT_NAME $CI_JOB_ID
+    - jf rt bce $CI_PROJECT_NAME $CI_JOB_ID
     # Pass the build information to Artifactory
-    #- jf rt bp $CI_PROJECT_NAME $CI_JOB_ID
+    - jf rt bp $CI_PROJECT_NAME $CI_JOB_ID
     # Scan published build with fail by default (true)
-    #- jf bs $CI_PROJECT_NAME $CI_JOB_ID
+    - jf bs $CI_PROJECT_NAME $CI_JOB_ID
