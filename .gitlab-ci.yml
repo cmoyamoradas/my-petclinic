@@ -46,5 +46,5 @@ build:docker:
     - jf rt bce $CI_PROJECT_NAME $CI_JOB_ID
     # Pass the build information to Artifactory
     - jf rt bp $CI_PROJECT_NAME $CI_JOB_ID
-    # Scan published build with fail by default (true)
+    # Scan published build with fail by default ( true )
     - jf bs $CI_PROJECT_NAME $CI_JOB_ID
