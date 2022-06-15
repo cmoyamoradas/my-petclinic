@@ -1,6 +1,6 @@
 before_script:
   # Install JFrog CLI
-  - curl -fL https://getcli.jfrog.io | sh
+  - curl -fL https://install-cli.jfrog.io | sh
   # Configure Artifactory instance with JFrog CLI
   - jf rt config --url=$JFROG_PLATFORM_URL --access-token=$JFROG_PAT
   - jf rt c show
@@ -20,6 +20,8 @@ maven-build:
       - target/*.jar
 docker-build-push:
   image: docker:latest
+  before_script:
+    - apk add --update curl && rm -rf /var/cache/apk/*
   script:
     # Build Docker image
     - docker build . --file Dockerfile --build-arg='JAR_FILE=target/*.jar' --tag $ARTIFACTORY_DOCKER_REGISTRY/$DOCKER_REPOSITORY/$IMAGE_NAME:$IMAGE_VERSION
