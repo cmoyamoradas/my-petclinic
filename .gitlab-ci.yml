@@ -15,7 +15,7 @@ build:maven:
   script:
     # Config Maven
     - jf mvn-config
-    # Run compile
+    # Run Maven compile
     - jf mvn clean test-compile -Dcheckstyle.skip -DskipTests
     # Run Maven package
     - jf mvn package spring-boot:repackage -DskipTests -Dcheckstyle.skip
