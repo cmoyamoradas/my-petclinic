@@ -36,7 +36,7 @@ pipeline {
                 sh 'mvn package spring-boot:repackage -DskipTests -Dcheckstyle.skip'
                 echo 'Create the Docker image'
                 script {
-                    docker.build(DOCKER_REPOSITORY+'/'+IMAGE_NAME+':'+IMAGE_VERSION, '--build-arg JAR_FILE=target/*.jar .')
+                    docker.build(ARTIFACTORY_DOCKER_REGISTRY+'/'+IMAGE_NAME+':'+IMAGE_VERSION, '--build-arg JAR_FILE=target/*.jar .')
                 }
             }
         }
