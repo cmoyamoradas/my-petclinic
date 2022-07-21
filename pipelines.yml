@@ -15,4 +15,4 @@ steps:
         - name: my_petclinic_repo     # Trigger execution on code commit
     execution:
       onExecute:
-        - echo "Hello World!"
+        - echo "Hola World!"
