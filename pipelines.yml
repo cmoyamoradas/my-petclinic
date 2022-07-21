@@ -8,6 +8,8 @@ resources:
         include: main
 pipelines:
   - name: my_petclinic_pipeline
+    configuration:
+      nodePool: MyGCPNodePool
     steps:
     - name: step_1
       type: Bash
