@@ -17,4 +17,4 @@ pipelines:
             trigger: true
       execution:
         onExecute:
-          - echo "Hola World!"
+          - echo "Hola troncos!"
