@@ -1,0 +1,18 @@
+resources:
+  - name: my_petclinic_repo
+    type: GitRepo
+    configuration:
+      gitProvider: GitHub
+      path: cmoyamoradas/my-petclinic
+      branches:
+        include: main
+
+steps:
+  - name: step_1
+    type: Bash
+    configuration:
+      inputResources:
+        - name: my_petclinic_repo     # Trigger execution on code commit
+    execution:
+      onExecute:
+        - echo "Hello World!"
