@@ -5,7 +5,7 @@ resources:
       gitProvider: GitHub
       path: cmoyamoradas/my-petclinic
       branches:
-        include: main
+        include: master
 pipelines:
   - name: my_petclinic_pipeline
     steps:
