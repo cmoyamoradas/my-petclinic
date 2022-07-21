@@ -7,12 +7,14 @@ resources:
       branches:
         include: main
 
-steps:
-  - name: step_1
-    type: Bash
-    configuration:
-      inputResources:
-        - name: my_petclinic_repo     # Trigger execution on code commit
-    execution:
-      onExecute:
-        - echo "Hola World!"
+pipeline:
+  - name: my_petclinic_pipeline
+    steps:
+    - name: step_1
+      type: Bash
+      configuration:
+        inputResources:
+          - name: my_petclinic_repo     # Trigger execution on code commit
+      execution:
+        onExecute:
+          - echo "Hola World!"
