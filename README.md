@@ -1,4 +1,4 @@
-# My Petclinic
+# My Pet Clinic
 
 This project has been created from the [Spring pet-clinic project](https://github.com/spring-projects/spring-petclinic).
 
