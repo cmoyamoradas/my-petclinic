@@ -6,8 +6,7 @@ resources:
       path: cmoyamoradas/my-petclinic
       branches:
         include: main
-
-pipeline:
+pipelines:
   - name: my_petclinic_pipeline
     steps:
     - name: step_1
