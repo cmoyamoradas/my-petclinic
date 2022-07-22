@@ -9,7 +9,7 @@ resources:
 pipelines:
   - name: my_petclinic_pipeline
     configuration:
-      nodePool: K8SPool
+      nodePool: K8Spool
     steps:
     - name: step_1
       type: Bash
