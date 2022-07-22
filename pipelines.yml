@@ -9,7 +9,7 @@ resources:
 pipelines:
   - name: my_petclinic_pipeline
     configuration:
-      nodePool: MyGCPNodePool
+      nodePool: Pool
     steps:
     - name: step_1
       type: Bash
