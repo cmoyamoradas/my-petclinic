@@ -1,5 +1,5 @@
 resources:
-  - name: my_petclinic_repo
+  - name: MyGitHub
     type: GitRepo
     configuration:
       gitProvider: GitHub
@@ -13,7 +13,7 @@ pipelines:
       type: Bash
       configuration:
         inputResources:
-          - name: my_petclinic_repo     # Trigger execution on code commit
+          - name: MyGitHub     # Trigger execution on code commit
             trigger: true
       execution:
         onExecute:
