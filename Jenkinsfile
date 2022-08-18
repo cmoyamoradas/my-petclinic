@@ -56,6 +56,12 @@ pipeline {
                 sh 'jf rt bp ${JOB_NAME} ${BUILD_ID} --build-url ${BUILD_URL} --url ${RT_URL} --access-token ${TOKEN}'
             }
         }
+        stage ('Scan'){
+            steps {
+                sh 'jf bs ${JOB_NAME} ${BUILD_ID}'
+            }
+        }
+        /*
         stage('Scan') {
             steps {
                 xrayScan (
@@ -66,5 +72,6 @@ pipeline {
                 )
             }
         }
+        *
     }
 }
