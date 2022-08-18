@@ -58,7 +58,7 @@ pipeline {
         }
         stage ('Scan'){
             steps {
-                sh 'jf bs ${JOB_NAME} ${BUILD_ID}'
+                sh 'jf bs ${JOB_NAME} ${BUILD_ID} --server-id ${SERVER_ID}'
             }
         }
         /*
