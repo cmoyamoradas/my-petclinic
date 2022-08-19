@@ -62,7 +62,7 @@ pipeline {
                     serverId: SERVER_ID,
                     buildName: JOB_NAME,
                     buildNumber: BUILD_ID,
-                    failBuild: true
+                    failBuild: false
                 )
             }
         }
