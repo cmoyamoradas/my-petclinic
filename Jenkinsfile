@@ -8,7 +8,7 @@ pipeline {
         CREDENTIALS = 'Artifactoryk8s'
         SERVER_ID = 'k8s'
         IMAGE_NAME = 'my-pet-clinic'
-        IMAGE_VERSION = '2.7.0'
+        IMAGE_VERSION = 'latest'
     }
     tools {
         maven "maven-3.6.3"
