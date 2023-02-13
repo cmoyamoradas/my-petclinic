@@ -17,3 +17,17 @@ steps:
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
+- task: JFrogMaven@1
+  inputs:
+    mavenPomFile: 'pom.xml'
+    goals: 'clean deploy -Dcheckstyle.skip -DskipTests'
+    artifactoryResolverService: 'Artifactory V2'
+    targetResolveReleaseRepo: 'demo-maven-virtual'
+    targetResolveSnapshotRepo: 'demo-maven-virtual'
+    artifactoryDeployService: 'Artifactory V2'
+    targetDeployReleaseRepo: 'demo-maven-virtual'
+    targetDeploySnapshotRepo: 'demo-maven-virtual'
+    collectBuildInfo: true
+    buildName: '$(Build.DefinitionName)'
+    buildNumber: '$(Build.BuildNumber)'
+    includeEnvVars: true
