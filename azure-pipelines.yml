@@ -10,13 +10,6 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
 - task: JFrogMaven@1
   inputs:
     mavenPomFile: 'pom.xml'
@@ -31,3 +24,12 @@ steps:
     buildName: '$(Build.DefinitionName)'
     buildNumber: '$(Build.BuildNumber)'
     includeEnvVars: true
+- task: JFrogPublishBuildInfo@1
+  inputs:
+    artifactoryConnection: 'Artifactory V2'
+    buildName: '$(Build.DefinitionName)'
+    buildNumber: '$(Build.BuildNumber)'
+- task: JfrogCliV2@1
+  inputs:
+    jfrogPlatformConnection: 'Platform V2'
+    command: 'jf rt bpr --status=Development --props="status=Development" $(Build.DefinitionName) $(Build.BuildNumber) demo-maven-dev-local'
